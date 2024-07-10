@@ -220,86 +220,6 @@
     }
   </style>
   <script>
-    function initCapture(api) {
-      const captureSection = document.getElementById("capture");
-      const clientIdElement = captureSection.querySelector(".client-id");
-      const videoElement = captureSection.getElementsByTagName("video")[0];
-
-      const listener = {
-        connected: function(clientId) { clientIdElement.textContent = clientId; },
-        disconnected: function() { clientIdElement.textContent = "none"; }
-      };
-      api.registerConnectionListener(listener);
-
-      document.getElementById("capture-button").addEventListener("click", (event) => {
-        event.preventDefault();
-
-        if (captureSection._producerSession) {
-          captureSection._producerSession.close();
-        } else if (!captureSection.classList.contains("starting")) {
-          captureSection.classList.add("starting");
-
-          const constraints = {
-            video: { width: 1280, height: 720 }
-          };
-          navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-            const session = api.createProducerSession(stream);
-            if (session) {
-              captureSection._producerSession = session;
-
-              session.addEventListener("error", (event) => {
-                if (captureSection._producerSession === session) {
-                  console.error(event.message, event.error);
-                }
-              });
-
-              session.addEventListener("closed", () => {
-                if (captureSection._producerSession === session) {
-                  videoElement.pause();
-                  videoElement.srcObject = null;
-                  captureSection.classList.remove("has-session", "starting");
-                  delete captureSection._producerSession;
-                }
-              });
-
-              session.addEventListener("stateChanged", (event) => {
-                if ((captureSection._producerSession === session) &&
-                  (event.target.state === GstWebRTCAPI.SessionState.streaming)) {
-                  videoElement.srcObject = stream;
-                  videoElement.play().catch(() => {});
-                  captureSection.classList.remove("starting");
-                }
-              });
-
-              session.addEventListener("clientConsumerAdded", (event) => {
-                if (captureSection._producerSession === session) {
-                  console.info(`client consumer added: ${event.detail.peerId}`);
-                }
-              });
-
-              session.addEventListener("clientConsumerRemoved", (event) => {
-                if (captureSection._producerSession === session) {
-                  console.info(`client consumer removed: ${event.detail.peerId}`);
-                }
-              });
-
-              captureSection.classList.add("has-session");
-              session.start();
-            } else {
-              for (const track of stream.getTracks()) {
-                track.stop();
-              }
-
-              captureSection.classList.remove("starting");
-            }
-          }).catch((error) => {
-            console.error("cannot have access to webcam and microphone", error);
-            captureSection.classList.remove("starting");
-          });
-        }
-      });
-    }
-
     function initRemoteStreams(api) {
       const remoteStreamsElement = document.getElementById("remote-streams");
 
@@ -423,30 +343,13 @@
       };
 
       const api = new GstWebRTCAPI(gstWebRTCConfig);
-      initCapture(api);
       initRemoteStreams(api);
     });
   </script>
 </head>
 
 <body>
-  <header>
-    <h1>GstWebRTC API</h1>
-  </header>
   <main>
-    <section id="capture">
-      <span class="client-id">none</span>
-      <button class="button" id="capture-button"></button>
-      <div class="video">
-        <div class="spinner">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <video></video>
-      </div>
-    </section>
     <section>
       <h1>Remote Streams</h1>
       <ul id="remote-streams"></ul>
