@@ -329,13 +329,6 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      document.addEventListener("click", (event) => {
-        if (event.target.matches("div.video>div.fullscreen:hover>span")) {
-          event.preventDefault();
-          event.target.parentNode.previousElementSibling.requestFullscreen();
-        }
-      });
-
       const signalingProtocol = window.location.protocol.startsWith("https") ? "wss" : "ws";
       const gstWebRTCConfig = {
         meta: { name: `WebClient-${Date.now()}` },
