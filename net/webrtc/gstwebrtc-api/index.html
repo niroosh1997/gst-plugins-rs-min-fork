@@ -229,29 +229,28 @@
           if (!document.getElementById(producerId)) {   
             const videoDog = document.getElementById("Dog").getElementsByTagName("video")[0];
             const session = api.createConsumerSession(producerId);
+            if (!session) {
+                return
+            }
             if (producer.meta.name==="Left"){
-              if (session) {
-                videoDog._consumerSession = session;
+              
+              videoDog._consumerSession = session;
 
-                session.addEventListener("error", (event) => {
-                  if (videoDog._consumerSession === session) {
-                    console.error(event.message, event.error);
-                  }
-                });
+              session.addEventListener("error", (event) => {
+                  console.error(event.message, event.error);
+              });
 
-                session.addEventListener("streamsChanged", () => {
-                  if (videoDog._consumerSession === session) {
-                    const streams = session.streams;
-                    if (streams.length > 0) {
-                        videoDog.srcObject = streams[0];
-                        videoDog.play();
-                      
-                    }
+              session.addEventListener("streamsChanged", () => {
+                  const streams = session.streams;
+                  if (streams.length > 0) {
+                      videoDog.srcObject = streams[0];
+                      videoDog.play();
+                    
                   }
-                });
+              });
                 
                 session.connect();
-              }
+              
             }
                 
             }
