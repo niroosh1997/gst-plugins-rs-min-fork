@@ -224,7 +224,7 @@
       const session = api.createConsumerSession(producerId);
       return session
     }
-    function attachConsumerSessionToVideo(session,htmlVideoElement) {
+    function attachConsumerSessionToVideoElemenet(session,htmlVideoElement) {
       session.addEventListener("error", (event) => {
           console.error(event.message, event.error);
       });
@@ -248,11 +248,11 @@
         producerAdded: function(producer) {
           const producerId = producer.id
           if (!document.getElementById(producerId)) {   
-            const videoDog = document.getElementById("Dog").getElementsByTagName("video")[0];
+            const videoDog = document.getElementById("Dog");
             
             if (producer.meta.name==="Left"){
               session = generateConsumerSession(api,producerId)
-              attachConsumerSessionToVideo(session,videoDog)
+              attachConsumerSessionToVideoElemenet(session,videoDog)
             }
                 
           }
