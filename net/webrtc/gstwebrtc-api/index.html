@@ -34,9 +34,8 @@
         producerAdded: function(producer) {
           const producerId = producer.id
           if (!document.getElementById(producerId)) {   
-            const videoDog = document.getElementById("Dog");
-            
-            if (producer.meta.name==="Left"){
+            if (producer.meta.name==="LeftProducer"){
+              const videoDog = document.getElementById("LeftConsumer");
               session = generateConsumerSession(api,producerId)
               attachConsumerSessionToVideoElemenet(session,videoDog)
             }
@@ -75,7 +74,7 @@
 <body>
 
   <div>
-      <video id="Dog" muted="muted"></video>
+      <video id="LeftConsumer" muted="muted"></video>
   </div>
 
 
