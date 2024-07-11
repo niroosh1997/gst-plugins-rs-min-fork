@@ -240,12 +240,12 @@
                                     <video></video>
                                 </div>
                             </li>`);
-
-            const entryElement = document.getElementById(producerId);
-            const videoElement = entryElement.getElementsByTagName("video")[0];
-
-
-
+                            
+                            const entryElement = document.getElementById(producerId);
+                            const videoElement = entryElement.getElementsByTagName("video")[0];
+                            
+                            
+                            
             entryElement.addEventListener("click", (event) => {
               event.preventDefault();
               if (!event.target.classList.contains("button")) {
@@ -272,32 +272,29 @@
                       }
                     }
                   });
-
-
-
+                  
+                  
+                  
                   session.connect();
                 }
-              
-            });
-          }
-        },
-
-        producerRemoved: function(producer) {
-          const element = document.getElementById(producer.id);
-          if (element) {
-            if (element._consumerSession) {
-              element._consumerSession.close();
+                
+              });
             }
-
-            element.remove();
+          },
+          
+          producerRemoved: function(producer) {
+            const element = document.getElementById(producer.id);
+            if (element) {
+              if (element._consumerSession) {
+                element._consumerSession.close();
+              }
+              
+              element.remove();
+            }
           }
-        }
-      };
+        };
 
       api.registerProducersListener(listener);
-      for (const producer of api.getAvailableProducers()) {
-        listener.producerAdded(producer);
-      }
     }
 
     window.addEventListener("DOMContentLoaded", () => {
