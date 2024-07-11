@@ -256,9 +256,6 @@
                 return;
               }
 
-              if (entryElement._consumerSession) {
-                entryElement._consumerSession.close();
-              } else {
                 const session = api.createConsumerSession(producerId);
                 if (session) {
                   entryElement._consumerSession = session;
@@ -269,14 +266,6 @@
                     }
                   });
 
-                  session.addEventListener("closed", () => {
-                    if (entryElement._consumerSession === session) {
-                      videoElement.pause();
-                      videoElement.srcObject = null;
-                      entryElement.classList.remove("has-session", "streaming", "has-remote-control");
-                      delete entryElement._consumerSession;
-                    }
-                  });
 
                   session.addEventListener("streamsChanged", () => {
                     if (entryElement._consumerSession === session) {
@@ -292,7 +281,7 @@
                   entryElement.classList.add("has-session");
                   session.connect();
                 }
-              }
+              
             });
           }
         },
