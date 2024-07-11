@@ -237,20 +237,20 @@
             const session = api.createConsumerSession(producerId);
             if (producer.meta.name==="Left"){
               if (session) {
-                entryElement._consumerSession = session;
+                videoDog._consumerSession = session;
 
                 session.addEventListener("error", (event) => {
-                  if (entryElement._consumerSession === session) {
+                  if (videoDog._consumerSession === session) {
                     console.error(event.message, event.error);
                   }
                 });
 
                 session.addEventListener("streamsChanged", () => {
-                  if (entryElement._consumerSession === session) {
+                  if (videoDog._consumerSession === session) {
                     const streams = session.streams;
                     if (streams.length > 0) {
-                      videoDog.srcObject = streams[0];
-                      videoDog.play();
+                        videoDog.srcObject = streams[0];
+                        videoDog.play();
                       
                     }
                   }
