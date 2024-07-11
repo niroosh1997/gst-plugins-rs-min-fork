@@ -35,9 +35,24 @@
           const producerId = producer.id
           if (!document.getElementById(producerId)) {   
             if (producer.meta.name==="LeftProducer"){
-              const videoDog = document.getElementById("LeftConsumer");
+              const videHTMLCoponent = document.getElementById("LeftConsumer");
               session = generateConsumerSession(api,producerId)
-              attachConsumerSessionToVideoElemenet(session,videoDog)
+              attachConsumerSessionToVideoElemenet(session,videHTMLCoponent)
+            }
+            if (producer.meta.name==="RightProducer"){
+              const videHTMLCoponent = document.getElementById("RightConsumer");
+              session = generateConsumerSession(api,producerId)
+              attachConsumerSessionToVideoElemenet(session,videHTMLCoponent)
+            }
+            if (producer.meta.name==="FrontProducer"){
+              const videHTMLCoponent = document.getElementById("FrontConsumer");
+              session = generateConsumerSession(api,producerId)
+              attachConsumerSessionToVideoElemenet(session,videHTMLCoponent)
+            }
+            if (producer.meta.name==="BackProducer"){
+              const videHTMLCoponent = document.getElementById("BackConsumer");
+              session = generateConsumerSession(api,producerId)
+              attachConsumerSessionToVideoElemenet(session,videHTMLCoponent)
             }
                 
           }
