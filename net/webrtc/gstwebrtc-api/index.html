@@ -220,13 +220,11 @@
     }
   </style>
   <script>
-    function initSession(api,producerId,videoDog) {
+    function generateConsumerSession(api,producerId) {
       const session = api.createConsumerSession(producerId);
-        if (!session) {
-            return
-        }
-      videoDog._consumerSession = session;
-
+      return session
+    }
+    function attachConsumerSessionToVideo(session,htmlVideoElement) {
       session.addEventListener("error", (event) => {
           console.error(event.message, event.error);
       });
@@ -234,8 +232,8 @@
       session.addEventListener("streamsChanged", () => {
           const streams = session.streams;
           if (streams.length > 0) {
-              videoDog.srcObject = streams[0];
-              videoDog.play();
+              htmlVideoElement.srcObject = streams[0];
+              htmlVideoElement.play();
             
           }
       });
@@ -253,7 +251,8 @@
             const videoDog = document.getElementById("Dog").getElementsByTagName("video")[0];
             
             if (producer.meta.name==="Left"){
-              initSession(api,producerId,videoDog)
+              session = generateConsumerSession(api,producerId)
+              attachConsumerSessionToVideo(session,videoDog)
             }
                 
           }
@@ -289,10 +288,10 @@
 
 <body>
   <ul id="remote-streams">
-    <li id="Dog" class="has-session streaming">
+    <li class="has-session streaming">
         <h3>Left</h3>
         <div class="video">
-            <video  muted="muted"></video>
+            <video id="Dog" muted="muted"></video>
         </div>
     </li>
   </ul>
