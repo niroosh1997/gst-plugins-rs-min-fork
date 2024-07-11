@@ -242,33 +242,28 @@
                             
             const entryElement = document.getElementById(producerId);
             const videoElement = entryElement.getElementsByTagName("video")[0];
-                            
-                            
-                            
+            const session = api.createConsumerSession(producerId);
+            if (session) {
+              entryElement._consumerSession = session;
 
-                const session = api.createConsumerSession(producerId);
-                if (session) {
-                  entryElement._consumerSession = session;
-
-                  session.addEventListener("error", (event) => {
-                    if (entryElement._consumerSession === session) {
-                      console.error(event.message, event.error);
-                    }
-                  });
-
-                  session.addEventListener("streamsChanged", () => {
-                    if (entryElement._consumerSession === session) {
-                      const streams = session.streams;
-                      console.log(streams)
-                      if (streams.length > 0) {
-                        videoElement.srcObject = streams[0];
-                        videoElement.play();
-                      }
-                    }
-                  });
-                  
-                  session.connect();
+              session.addEventListener("error", (event) => {
+                if (entryElement._consumerSession === session) {
+                  console.error(event.message, event.error);
                 }
+              });
+
+              session.addEventListener("streamsChanged", () => {
+                if (entryElement._consumerSession === session) {
+                  const streams = session.streams;
+                  if (streams.length > 0) {
+                    videoElement.srcObject = streams[0];
+                    videoElement.play();
+                  }
+                }
+              });
+              
+              session.connect();
+            }
                 
             }
           },
