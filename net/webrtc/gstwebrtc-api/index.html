@@ -226,13 +226,7 @@
       const listener = {
         producerAdded: function(producer) {
           const producerId = producer.id
-          if (!document.getElementById(producerId)) {
-            remoteStreamsElement.insertAdjacentHTML("beforeend",
-              `<h3>${producer.meta.name}</h3>
-               <li id="${producerId}" class="has-session streaming">
-                            </li>`);
-                            
-            const entryElement = document.getElementById(producerId);
+          if (!document.getElementById(producerId)) {   
             const videoDog = document.getElementById("Dog").getElementsByTagName("video")[0];
             const session = api.createConsumerSession(producerId);
             if (producer.meta.name==="Left"){
