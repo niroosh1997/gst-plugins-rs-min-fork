@@ -228,7 +228,7 @@
           const producerId = producer.id
           if (!document.getElementById(producerId)) {
             remoteStreamsElement.insertAdjacentHTML("beforeend",
-              `<li id="${producerId}">
+              `<li id="${producerId}" class="has-session streaming">
                                 <div class="button">${producer.meta.name || producerId}</div>
                                 <div class="video">
                                     <div class="spinner">
@@ -237,9 +237,7 @@
                                         <div></div>
                                         <div></div>
                                     </div>
-                                    <span class="remote-control">&#xA9;</span>
                                     <video></video>
-                                    <div class="fullscreen"><span title="Toggle fullscreen">&#x25A2;</span></div>
                                 </div>
                             </li>`);
 
@@ -290,17 +288,6 @@
                     }
                   });
 
-                  session.addEventListener("remoteControllerChanged", () => {
-                    if (entryElement._consumerSession === session) {
-                      const remoteController = session.remoteController;
-                      if (remoteController) {
-                        entryElement.classList.add("has-remote-control");
-                        remoteController.attachVideoElement(videoElement);
-                      } else {
-                        entryElement.classList.remove("has-remote-control");
-                      }
-                    }
-                  });
 
                   entryElement.classList.add("has-session");
                   session.connect();
