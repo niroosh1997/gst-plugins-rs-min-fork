@@ -220,7 +220,11 @@
     }
   </style>
   <script>
-    function initSession(session,videoDog) {
+    function initSession(api,producerId,videoDog) {
+      const session = api.createConsumerSession(producerId);
+        if (!session) {
+            return
+        }
       videoDog._consumerSession = session;
 
       session.addEventListener("error", (event) => {
@@ -247,12 +251,9 @@
           const producerId = producer.id
           if (!document.getElementById(producerId)) {   
             const videoDog = document.getElementById("Dog").getElementsByTagName("video")[0];
-            const session = api.createConsumerSession(producerId);
-            if (!session) {
-                return
-            }
+            
             if (producer.meta.name==="Left"){
-              initSession(session,videoDog)
+              initSession(api,producerId,videoDog)
             }
                 
           }
