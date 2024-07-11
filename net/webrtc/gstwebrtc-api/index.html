@@ -229,7 +229,6 @@
           if (!document.getElementById(producerId)) {
             remoteStreamsElement.insertAdjacentHTML("beforeend",
               `<li id="${producerId}" class="has-session streaming">
-                                <div class="button">${producer.meta.name || producerId}</div>
                                 <div class="video">
                                     <div class="spinner">
                                         <div></div>
@@ -303,12 +302,7 @@
 </head>
 
 <body>
-  <main>
-    <section>
-      <h1>Remote Streams</h1>
-      <ul id="remote-streams"></ul>
-    </section>
-  </main>
+  <ul id="remote-streams"></ul>
 </body>
 
 </html>
