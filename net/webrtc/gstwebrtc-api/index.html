@@ -26,7 +26,7 @@
         
         session.connect();
     }
-    function attachConsumersToProducers(api,producer,cameraNames) {
+    function attachVideoElementsToStreams(api,producer,cameraNames) {
       for (const cameraName of cameraNames) {
         if (producer.meta.name===`${cameraName}Producer`){
           const videHTMLCoponent = document.getElementById(`${cameraName}Consumer`);
@@ -43,7 +43,7 @@
         producerAdded: function(producer) {
           const cameraNames = ["Left","Right","Front","Back"]
           if (!document.getElementById(producer.id)) {
-            attachConsumersToProducers(api,producer,cameraNames)
+            attachVideoElementsToStreams(api,producer,cameraNames)
           }
         },
           
