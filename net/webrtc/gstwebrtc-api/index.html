@@ -26,35 +26,24 @@
         
         session.connect();
     }
+    function attachConsumersToProducers(api,producer,cameraNames) {
+      for (const cameraName of cameraNames) {
+        if (producer.meta.name===`${cameraName}Producer`){
+          const videHTMLCoponent = document.getElementById(`${cameraName}Consumer`);
+          session = generateConsumerSession(api,producer.id)
+          attachConsumerSessionToVideoElemenet(session,videHTMLCoponent)
+        }
+      }  
+    }
 
     function initRemoteStreams(api) {
       const remoteStreamsElement = document.getElementById("remote-streams");
 
       const listener = {
         producerAdded: function(producer) {
-          const producerId = producer.id
-          if (!document.getElementById(producerId)) {   
-            if (producer.meta.name==="LeftProducer"){
-              const videHTMLCoponent = document.getElementById("LeftConsumer");
-              session = generateConsumerSession(api,producerId)
-              attachConsumerSessionToVideoElemenet(session,videHTMLCoponent)
-            }
-            if (producer.meta.name==="RightProducer"){
-              const videHTMLCoponent = document.getElementById("RightConsumer");
-              session = generateConsumerSession(api,producerId)
-              attachConsumerSessionToVideoElemenet(session,videHTMLCoponent)
-            }
-            if (producer.meta.name==="FrontProducer"){
-              const videHTMLCoponent = document.getElementById("FrontConsumer");
-              session = generateConsumerSession(api,producerId)
-              attachConsumerSessionToVideoElemenet(session,videHTMLCoponent)
-            }
-            if (producer.meta.name==="BackProducer"){
-              const videHTMLCoponent = document.getElementById("BackConsumer");
-              session = generateConsumerSession(api,producerId)
-              attachConsumerSessionToVideoElemenet(session,videHTMLCoponent)
-            }
-                
+          const cameraNames = ["Left","Right","Front","Back"]
+          if (!document.getElementById(producer.id)) {
+            attachConsumersToProducers(api,producer,cameraNames)
           }
         },
           
