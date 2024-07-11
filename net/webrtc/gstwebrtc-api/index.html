@@ -228,7 +228,8 @@
           const producerId = producer.id
           if (!document.getElementById(producerId)) {
             remoteStreamsElement.insertAdjacentHTML("beforeend",
-              `<li id="${producerId}" class="has-session streaming">
+              `<h3>${producer.meta.name}</h3>
+               <li id="${producerId}" class="has-session streaming">
                                 <div class="video">
                                     <div class="spinner">
                                         <div></div>
