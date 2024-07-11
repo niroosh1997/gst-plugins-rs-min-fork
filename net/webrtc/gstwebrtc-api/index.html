@@ -231,12 +231,10 @@
               `<h3>${producer.meta.name}</h3>
                <li id="${producerId}" class="has-session streaming">
                                 <div class="video">
-                                    <video  muted="muted"></video>
                                 </div>
                             </li>`);
                             
             const entryElement = document.getElementById(producerId);
-            const videoElement = entryElement.getElementsByTagName("video")[0];
             const videoDog = document.getElementById("Dog").getElementsByTagName("video")[0];
             const session = api.createConsumerSession(producerId);
             if (session) {
@@ -252,8 +250,6 @@
                 if (entryElement._consumerSession === session) {
                   const streams = session.streams;
                   if (streams.length > 0) {
-                    videoElement.srcObject = streams[0];
-                    videoElement.play();
                     if (producer.meta.name==="Left"){
                       videoDog.srcObject = streams[0];
                       videoDog.play();
