@@ -235,28 +235,29 @@
             const entryElement = document.getElementById(producerId);
             const videoDog = document.getElementById("Dog").getElementsByTagName("video")[0];
             const session = api.createConsumerSession(producerId);
-            if (session) {
-              entryElement._consumerSession = session;
+            if (producer.meta.name==="Left"){
+              if (session) {
+                entryElement._consumerSession = session;
 
-              session.addEventListener("error", (event) => {
-                if (entryElement._consumerSession === session) {
-                  console.error(event.message, event.error);
-                }
-              });
+                session.addEventListener("error", (event) => {
+                  if (entryElement._consumerSession === session) {
+                    console.error(event.message, event.error);
+                  }
+                });
 
-              session.addEventListener("streamsChanged", () => {
-                if (entryElement._consumerSession === session) {
-                  const streams = session.streams;
-                  if (streams.length > 0) {
-                    if (producer.meta.name==="Left"){
+                session.addEventListener("streamsChanged", () => {
+                  if (entryElement._consumerSession === session) {
+                    const streams = session.streams;
+                    if (streams.length > 0) {
                       videoDog.srcObject = streams[0];
                       videoDog.play();
+                      
                     }
                   }
-                }
-              });
-              
-              session.connect();
+                });
+                
+                session.connect();
+              }
             }
                 
             }
