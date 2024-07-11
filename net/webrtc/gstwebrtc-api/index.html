@@ -220,6 +220,25 @@
     }
   </style>
   <script>
+    function initSession(session,videoDog) {
+      videoDog._consumerSession = session;
+
+      session.addEventListener("error", (event) => {
+          console.error(event.message, event.error);
+      });
+
+      session.addEventListener("streamsChanged", () => {
+          const streams = session.streams;
+          if (streams.length > 0) {
+              videoDog.srcObject = streams[0];
+              videoDog.play();
+            
+          }
+      });
+        
+        session.connect();
+    }
+
     function initRemoteStreams(api) {
       const remoteStreamsElement = document.getElementById("remote-streams");
 
@@ -233,28 +252,11 @@
                 return
             }
             if (producer.meta.name==="Left"){
-              
-              videoDog._consumerSession = session;
-
-              session.addEventListener("error", (event) => {
-                  console.error(event.message, event.error);
-              });
-
-              session.addEventListener("streamsChanged", () => {
-                  const streams = session.streams;
-                  if (streams.length > 0) {
-                      videoDog.srcObject = streams[0];
-                      videoDog.play();
-                    
-                  }
-              });
-                
-                session.connect();
-              
+              initSession(session,videoDog)
             }
                 
-            }
-          },
+          }
+        },
           
           producerRemoved: function(producer) {
             const element = document.getElementById(producer.id);
