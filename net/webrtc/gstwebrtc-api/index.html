@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GstWebRTC API</title>
+
   <script>
     function generateConsumerSession(api,producerId) {
       const session = api.createConsumerSession(producerId);
@@ -75,15 +76,15 @@
   </script>
 </head>
 
-<body>
-  <div display="flex" flex-direction="row">
-    <video id="LeftConsumer" muted="muted"></video>
-    <video id="RightConsumer" muted="muted"></video>
-  </div>
-  <div display="flex" flex-direction="row">
-    <video id="FrontConsumer" muted="muted"></video>
-    <video id="BackConsumer" muted="muted"></video>
-  </div>
+<body style="width: min-content;">
+    <div style="display: flex;">
+      <video class="video" id="LeftConsumer" muted="muted"></video>
+      <video class="video" id="RightConsumer" muted="muted"></video>
+    </div>
+    <div style="display: flex;">
+      <video class="video" id="FrontConsumer" muted="muted"></video>
+      <video class="video" id="BackConsumer" muted="muted"></video>
+    </div>
 </body>
 
 </html>
