@@ -39,10 +39,13 @@
 
     function initRemoteStreams(api) {
       const remoteStreamsElement = document.getElementById("remote-streams");
+      const queryParam=getJsonFromUrl()
+      const appElement=document.querySelector("#app")
+      appElement.innerHTML=`<video style="height: 100vh;" id="${queryParam.camera_name}Consumer" muted="muted"></video>`
 
       const listener = {
         producerAdded: function(producer) {
-          const cameraNames = ["Left","Right","Front","Back"]
+          const cameraNames = [queryParam.camera_name]
           if (!document.getElementById(producer.id)) {
             attachVideoElementsToStreams(api,producer,cameraNames)
           }
@@ -62,6 +65,17 @@
 
       api.registerProducersListener(listener);
     }
+    function getJsonFromUrl(url) {
+      if(!url) url = location.search;
+      var query = url.substr(1);
+      var result = {};
+      query.split("&").forEach(function(part) {
+        var item = part.split("=");
+        result[item[0]] = decodeURIComponent(item[1]);
+      });
+      return result;
+    }
+
 
     window.addEventListener("DOMContentLoaded", () => {
       const signalingProtocol = window.location.protocol.startsWith("https") ? "wss" : "ws";
@@ -69,7 +83,6 @@
         meta: { name: `WebClient-${Date.now()}` },
         signalingServerUrl: `${signalingProtocol}://${window.location.host}/webrtc`,
       };
-
       const api = new GstWebRTCAPI(gstWebRTCConfig);
       initRemoteStreams(api);
     });
@@ -77,16 +90,7 @@
 </head>
 
 <body style="margin: 0;">
-  <div>
-    <div style="display: flex; justify-content: center;">
-      <video style="height: 50vh;" id="LeftConsumer" muted="muted"></video>
-      <video style="height: 50vh;" id="RightConsumer" muted="muted"></video>
-    </div>
-    <div style="display: flex; justify-content: center;">
-      <video style="height: 50vh;" id="FrontConsumer" muted="muted"></video>
-      <video style="height: 50vh;" id="BackConsumer" muted="muted"></video>
-    </div>
-  </div>
+  <div id="app"></div>
 </body>
 
 </html>
