@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en">
-
+<html lang="en" style="margin: 0;padding: 0%;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +40,7 @@
       const remoteStreamsElement = document.getElementById("remote-streams");
       const queryParam=getJsonFromUrl()
       const appElement=document.querySelector("#app")
-      appElement.innerHTML=`<video style="height: 100vh;" id="${queryParam.camera_name}Consumer" muted="muted"></video>`
+      appElement.innerHTML=`<video style="height: 99vh;" id="${queryParam.camera_name}Consumer" muted="muted"></video>`
 
       const listener = {
         producerAdded: function(producer) {
@@ -89,8 +88,8 @@
   </script>
 </head>
 
-<body style="margin: 0;">
-  <div id="app"></div>
+<body style="margin: 0; padding: 0%;">
+  <div id="app" class="videosize"></div>
 </body>
 
 </html>
